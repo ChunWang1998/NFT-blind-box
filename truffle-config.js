@@ -25,7 +25,12 @@
 
 var HDWalletProvider = require("truffle-hdwallet-provider");
 var mnemonic = "";
+
+//rinkeby
 var infura_url = "https://rinkeby.infura.io/v3/5cd73a7e76c94210923fbcdbf0f229d7";
+
+//ropsten
+//var infura_url = "https://ropsten.infura.io/v3/d54cf482bb2243919032414d26493b55";
 
 module.exports = {
   /**
@@ -46,7 +51,7 @@ module.exports = {
     // options below to some value.
     //
 
-//for test on ganache
+    //for test on ganache
 
     // development: {
     //  host: "127.0.0.1",     // Localhost (default: none)
@@ -54,18 +59,32 @@ module.exports = {
     //  network_id: "*",       // Any network (default: none)
     // },
 
-//for test on rinkeby
+    //for test on rinkeby
     development: {
       host: "localhost",
       port: 8545,
       network_id: "*" // Match any network id
     },
     rinkeby: {
-      provider: function() {
+      provider: function () {
         return new HDWalletProvider(mnemonic, infura_url)
       },
-      network_id: "*"
+      network_id: "*",
     },
+
+    //for test no ropsten
+    // development: {
+    //   host: "127.0.0.1",     // Localhost (default: none)
+    //   port: 8545,            // Standard Ethereum port (default: none)
+    //   network_id: "*",       // Any network (default: none)
+    // },
+    // ropsten: {
+    //   provider: function () {
+    //     return new HDWalletProvider(mnemonic, infura_url)
+    //   },
+    //   network_id: 3,       // Ropsten's id
+    // },
+
 
     // Another network with more advanced options...
     // advanced: {
@@ -111,6 +130,12 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
+      settings: {// to prevent the err ""Migrations" -- VM Exception while processing transaction: Transaction's maxFeePerGas (20000000000) is less than the block's baseFeePerGas (33102035303) (vm hf=london -> block -> tx)."
+        optimizer: {
+          enabled: true, // Default: false
+          runs: 1000, // Default: 200
+        },
+      },
     }
   },
 
@@ -125,13 +150,13 @@ module.exports = {
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
+  // }
   // }
 };
